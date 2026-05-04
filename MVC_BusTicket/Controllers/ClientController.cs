@@ -20,15 +20,20 @@ namespace MVC_BusTicket.Controllers
         [HttpGet]
         public IActionResult ChooseTicketType()
         {
-            // Getting the Enum values
-            
             return View();
         }
 
         [HttpPost] // To handle the form submission
-        public IActionResult ChooseTicketType(SummaryViewModel summaryViewModel)
+        public IActionResult ChooseTicketType(ChooseTicketTypeViewModel model)
         {
-            return RedirectToAction("Action", "Client");
+            // Check results of the form submission
+            if (!ModelState.IsValid)
+                return View(model);
+
+            if (model.EnumTicketType == EnumTicketType.Free)
+                return RedirectToAction("Summary", "Client");
+
+            return RedirectToAction("Payment", "Client");
         }
 
         // === PAYMENT
